@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<project name="Cookies" default="war">
+	<property name="jdk.version" value="1.8" />
+	<path id="compile.classpath">
+		<fileset dir="webapp/WEB-INF/lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="init">
+		<mkdir dir="build/classes"/>
+		<mkdir dir="dist" />
+		<mkdir dir="build/classes/html" />
+	</target>
+
+	<target name="compile" depends="init" >
+		<javac compiler="javac1.8" target="1.8" source="1.8" destdir="build/classes"  debug="true" srcdir="src">
+			<classpath refid="compile.classpath"/>
+		</javac>
+		<copy todir="build/classes/html">
+			<fileset dir="resources\html" includes="**/*.html"/>
+		</copy>
+	</target>
+
+	<target name="war" depends="compile">
+		<war destfile="dist/cookies.war" webxml="webapp/WEB-INF/web.xml">
+			<fileset dir="webapp"/>
+
+			<classes dir="build/classes"/>
+
+		</war>
+	</target>
+
+	<target name="clean">
+		<delete dir="dist" />
+		<delete dir="build" />
+	</target>
+
+</project>
